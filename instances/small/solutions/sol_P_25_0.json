@@ -1,0 +1,53 @@
+{
+
+"Instance": "P_25_0",
+  "Algorithm": "Exact",
+  "Relaxed Master Problem Solution": {
+    "Objective": 1023.73,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [0, 3, 8, 24, 14, 13, 26, 2, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [0, 20, 19, 0],
+        "scheduled lines": [-1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 25, 12, 10, 22, 9, 21, 11, 23, 17, 6, 1],
+        "scheduled lines": [-1, -1, -1, 7, -1, -1, -1, 7, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 18, 4, 16, 7, 5, 15, 1],
+        "scheduled lines": [7, 7, -1, -1, -1, -1]
+      }    ]
+  },
+  "Integer Master Problem Solution": {
+    "Objective": 1023.73,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [0, 3, 8, 24, 14, 13, 26, 2, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [0, 20, 19, 0],
+        "scheduled lines": [-1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 25, 12, 10, 22, 9, 21, 11, 23, 17, 6, 1],
+        "scheduled lines": [-1, -1, -1, 7, -1, -1, -1, 7, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 18, 4, 16, 7, 5, 15, 1],
+        "scheduled lines": [7, 7, -1, -1, -1, -1]
+      }    ]
+  }
+}

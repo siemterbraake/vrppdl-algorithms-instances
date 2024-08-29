@@ -1,0 +1,33 @@
+{
+
+"Instance": "P_10_2",
+  "Algorithm": "Exact",
+  "Relaxed Master Problem Solution": {
+    "Objective": 611.566,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [0, 8, 10, 7, 5, 4, 0],
+        "scheduled lines": [-1, -1, -1, 5, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 11, 9, 6, 2, 3, 1],
+        "scheduled lines": [-1, -1, -1, -1, -1]
+      }    ]
+  },
+  "Integer Master Problem Solution": {
+    "Objective": 611.566,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [0, 8, 10, 7, 5, 4, 0],
+        "scheduled lines": [-1, -1, -1, 5, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 11, 9, 6, 2, 3, 1],
+        "scheduled lines": [-1, -1, -1, -1, -1]
+      }    ]
+  }
+}

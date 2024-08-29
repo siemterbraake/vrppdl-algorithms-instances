@@ -1,0 +1,53 @@
+{
+
+"Instance": "P_35_2",
+  "Algorithm": "Exact",
+  "Relaxed Master Problem Solution": {
+    "Objective": 1200.44,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [0, 13, 35, 14, 21, 3, 26, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [0, 20, 11, 18, 23, 19, 32, 8, 7, 17, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 6, 31, 2, 5, 16, 33, 9, 1],
+        "scheduled lines": [-1, -1, -1, -1, -1, 1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 27, 25, 22, 28, 36, 10, 4, 30, 15, 24, 12, 34, 29, 1],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7]
+      }    ]
+  },
+  "Integer Master Problem Solution": {
+    "Objective": 1200.44,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [0, 13, 35, 14, 21, 3, 26, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [0, 20, 11, 18, 23, 19, 32, 8, 7, 17, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 6, 31, 2, 5, 16, 33, 9, 1],
+        "scheduled lines": [-1, -1, -1, -1, -1, 1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 27, 25, 22, 28, 36, 10, 4, 30, 15, 24, 12, 34, 29, 1],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7]
+      }    ]
+  }
+}
