@@ -50,14 +50,19 @@ struct Pricer
     void updateCostMatrix();
     void processAvailableSLs();
     Label createStartLabel();
-    void extendLabel(const Label &labelFrom, const Node &nodeTo);
+    void extendLabel(const Label &labelFrom, const Node &nodeTo, std::atomic<bool>& stopFlag);
     void checkCompleteRoute(const Label &path);
-    inline void removeLabelsDominatedBy(const Label &pathPartial)
+
+    inline void removeLabelsDominatedBy(const Label &pathPartial, std::atomic<bool>& stopFlag)
     {
         int ctrRemove = 0;
 
         for (unsigned short idLabel = 0; idLabel < d_pathsProcessed[pathPartial.d_idNode].size(); idLabel++)
         {
+            if (stopFlag.load())
+            {
+                return;
+            }
             if (dominates(pathPartial, d_pathsProcessed[pathPartial.d_idNode][idLabel]))
             {
                 d_pathsProcessed[pathPartial.d_idNode].erase(
@@ -68,10 +73,14 @@ struct Pricer
         }
     }
 
-    inline bool isLabelDominated(const Label &pathPartial)
+    inline bool isLabelDominated(const Label &pathPartial, std::atomic<bool>& stopFlag)
     {
         for (unsigned short idLabel = 0; idLabel < d_pathsProcessed[pathPartial.d_idNode].size(); idLabel++)
         {
+            if (stopFlag.load())
+            {
+                return true;
+            }
             if (dominates(d_pathsProcessed[pathPartial.d_idNode][idLabel], pathPartial))
             {
                 return true;

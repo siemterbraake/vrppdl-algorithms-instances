@@ -96,7 +96,7 @@ void Pricer::solveExact(std::atomic<bool>& stopFlag, unsigned short nColsMax)
                         continue; // skip cust extension, customer already visited
                     }
 
-                    extendLabel(fromLabel, d_inst.d_nodes[i]);
+                    extendLabel(fromLabel, d_inst.d_nodes[i], stopFlag);
                 }
                 counter++;
             }
@@ -169,7 +169,7 @@ void Pricer::solveExact(std::atomic<bool>& stopFlag, unsigned short nColsMax)
     return;
 }
 
-void Pricer::extendLabel(const Label &labelFrom, const Node &nodeTo)
+void Pricer::extendLabel(const Label &labelFrom, const Node &nodeTo, std::atomic<bool>& stopFlag)
 {
     /*
     Extend from_label to the new customer node.
@@ -355,6 +355,11 @@ void Pricer::extendLabel(const Label &labelFrom, const Node &nodeTo)
 
         for ( const unsigned short idNode : N )
         {
+            // Check if time limit exceeded
+            if (stopFlag.load())
+            {
+                return;
+            }
             if ( idNode < d_inst.d_nDepots )
             {
                 idRoute++;
@@ -510,9 +515,14 @@ void Pricer::extendLabel(const Label &labelFrom, const Node &nodeTo)
         slPlan     
     );
 
-    if (!isLabelDominated(extendedLabel))
+    if (!isLabelDominated(extendedLabel, stopFlag))
     {
-        removeLabelsDominatedBy(extendedLabel);  // Check if it dominates other labels
+        removeLabelsDominatedBy(extendedLabel, stopFlag);  // Check if it dominates other labels
+
+        if (stopFlag.load())
+        {
+            return;
+        }
     
         d_pathsUnprocessed[nodeTo.d_idNode].push_back(extendedLabel);
         d_pathsProcessed[nodeTo.d_idNode].push_front(extendedLabel); // Sort later

@@ -234,7 +234,7 @@ bool ALNSSolution::isValid(bool destroyed, Duals duals) const {
             }
             // Update distance-based cost for the vehicle type solution
             costDist += distVeh*d_pInst->d_vehTypes[j].d_costVariable+
-                        static_cast<double>(curVehTypeSol.d_nUsedVehicles)*(d_pInst->d_vehTypes[j].d_costFixed - duals.d_vehicle[i*duals.d_nDepots + j]);
+                        static_cast<double>(curVehTypeSol.d_nUsedVehicles)*(d_pInst->d_vehTypes[j].d_costFixed - duals.d_vehicle[i*duals.d_nVehicleTypes + j]);
         }
     }
     // Verify that the distance-based calculation is equal to the cost-based calculation

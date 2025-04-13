@@ -39,21 +39,25 @@ struct Metaheuristic {
     ALNSSolution d_bestSol;     // Best solution found so far
     Duals d_duals;              // Dual variables for the current run
 
+    std::set<std::size_t> d_solCache; // Hashes of the solutions found
+
     std::vector<double> d_tempObjVals;                // Objective values of temporary solution per iteration
     std::vector<double> d_curObjVals;                 // Objective values of current solution per iteration
     std::vector<double> d_bestObjVals;                // Objective values of best solution per iteration
     std::vector<double> d_wDestroyOp;                 // Weights of destroy operations
     std::vector<double> d_wRepairOp;                  // Weights of repair operations
-    std::vector<double> d_temps;                      // Temperatures for simulated annealing
+    std::vector<double> d_pThresholds;                // Temperatures for simulated annealing
     CapacitatedSortedDeque<Label>  d_labels;          // Labels for the negative reduced cost routes
     CapacitatedSortedDeque<ALNSSolution> d_bestSolutions; // Best solutions found so far
     std::mt19937 d_gen;                               // Random number generator
 
     bool d_initialize;                 // Flag to indicate if initialize mode is active
-    int d_nIterations;                 // Number of iterations
+    unsigned int d_nIterations;        // Number of iterations
+    unsigned int d_nUnimproved;        // Number of unimproved iterations
     std::string d_idRun;               // ID of the current run
     double d_bestObjVal;               // Best objective value
-    double d_temp;                     // Temperature for simulated annealing
+    double d_pThreshold;               // Current threshold for pta
+    double d_pThresholdMax;            // Maximum threshold for pta
     unsigned short d_sizeNeighborhood; // Size of the neighborhood of the current iteration
     unsigned short d_iRepairOp;        // Index of current repair operation
     unsigned short d_iDestroyOp;       // Index of current destroy operation
@@ -69,18 +73,18 @@ struct Metaheuristic {
     void setOperationIdx();
     void performDestroy();
     void performRepair();
-    void evaluateSolution(unsigned int i);   
+    void evaluateSolution(unsigned int i);
+    void resetPTA(unsigned int i);   
     void updateOpWeights();
     void setDuals(Duals duals);
     void storeLabel(unsigned short idDepot, unsigned short idVehicleType, unsigned short idRoute, unsigned short idNode, unsigned short idSL, unsigned short pos, double reducedCost);
     std::deque<Label> getLabels();
     void clear();
-    void updateSATemp(unsigned int i);
     void updateProgressBar(unsigned int i);
     void writeLogs(double timeElapsed, bool error = false) const;
     void writeSummary(double timeElapsed, std::string path) const;
     void writeSolutionTrend(std::string path) const;
-    void writeTemps(std::string path) const;
+    void writeThresholds(std::string path) const;
 
     // Destroy functions -> metaheuristicDestroy.cpp
     void destroyDynamic(unsigned short idAnchor, double routeCoef); // #0 dynamic destroy

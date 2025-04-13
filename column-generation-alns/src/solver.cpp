@@ -28,7 +28,6 @@ Solver::Solver(std::string path)
 
     // Settings sanity checks
     d_settings.d_maxNeighborhoodSize = std::min(d_settings.d_maxNeighborhoodSize, static_cast<unsigned short>(d_inst.d_nCustNodes - 2));
-    d_settings.d_tempStartSA = d_inst.d_nCustNodes * 0.75;
     d_result.d_instName = d_inst.d_name;
 }
 

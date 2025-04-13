@@ -22,8 +22,7 @@ struct Settings {
     
     double d_noiseLevel;             // Noise level for the noisy heuristics
     double d_alnsAlpha;              // Alpha parameter for the ALNS
-    double d_tempStartSA;     // Initial temperature for simulated annealing
-    double d_tempEndSA;              // End temperature for simulated annealing
+    double d_pThresholdMax;          // Maximum threshold for the PTA
     double d_bigM;                   // Big m for the MIP
     double d_tolerance;              // Tolerance for floating point calculations
 
@@ -41,10 +40,10 @@ struct Settings {
     unsigned int d_nALNSInitIterationsPerNode; // Number of initialization ALNS iterations for the Metaheuristic
     unsigned int d_nCheckFeasible;             // Number of iterations before checking feasibility
     unsigned int d_timeLimit;                  // Time limit for the pricing algorithms, in seconds
+    unsigned int d_nUnimproveMax;             // Number of unimproved iterations before stopping the ALNS
     
     bool d_verbose;             // Whether to print verbose output
     bool d_writeFiles;          // Whether to write the solution and logs to file
-    bool d_simulatedAnnealing;  // Whether to use simulated annealing
     bool d_alnsInit;            // Whether to initialize the MIP with the ALNS solution
     bool d_verifyExact;         // Whether to verify the ALNS solution with the exact pricing algorithm
     bool d_writeSols;           // Whether to write the solutions to file

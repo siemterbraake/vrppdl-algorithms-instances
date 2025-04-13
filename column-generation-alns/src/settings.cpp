@@ -18,18 +18,17 @@ Settings::Settings() {
     d_sortType = 0;
     d_verbose = false;
     d_writeFiles = false;
-    d_simulatedAnnealing = false;
     d_alnsInit = false;
     d_verifyExact = false;
     d_writeSols = false;
     d_noiseLevel = 0.0;
     d_alnsAlpha = 0.1f;
-    d_tempStartSA = 1;
-    d_tempEndSA = 1;
     d_nColsMaxExact = 1;
     d_nColsMaxALNS = 1;
     d_nSolsInit = 1;
     d_timeLimit = 600;
+    d_nUnimproveMax = 1000;
+    d_pThresholdMax = 0.0f;
 }
 
 void parseKeyValue(const std::string& line, std::unordered_map<std::string, std::string>& keyValueMap) {
@@ -90,10 +89,9 @@ bool Settings::load(const std::string path_settings) {
         setValue("sortType", d_sortType)  &&
         setValue("noiseLevel", d_noiseLevel) &&
         setValue("alnsAlpha", d_alnsAlpha) &&
-        setValue("simulatedAnnealing", d_simulatedAnnealing) &&
         setValue("timeLimit", d_timeLimit) &&
-        setValue("tempStartSA", d_tempStartSA) &&
-        setValue("tempEndSA", d_tempEndSA)) {
+        setValue("nUnimproveMax", d_nUnimproveMax) &&
+        setValue("pThresholdMax", d_pThresholdMax)) {
             return true;
         }
 

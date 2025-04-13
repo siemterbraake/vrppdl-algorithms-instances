@@ -38,7 +38,7 @@ int main()
     // Create a result file
     std::filesystem::create_directory("output/logs/");
     std::ofstream file("output/logs/"+idRun+".csv");
-    file << "Instance, Exact Pricing, ALNS Pricing, ALNS Exact, Exact LB, Exact MP UB, ALNS LB, ALNS MP UB, Exact MP time, ALNS MP time, Average customer count per route\n";
+    file << "Instance, Exact Pricing, ALNS Pricing, ALNS Exact, Exact LB, Exact MP UB, ALNS LB, ALNS MP UB, Exact MP time, ALNS MP time\n";
 
     // Solve all instances
     for (unsigned short iInst = 0; iInst < paths.size(); iInst++)
@@ -49,12 +49,16 @@ int main()
         solver.printResult();
         results.push_back(solver.getResult());
         // Write the results to a csv file
-        file << results[iInst].d_instName << "," << results[iInst].d_nPricingExact << "," <<
-        results[iInst].d_nPricingALNS << "," << results[iInst].d_nPricingALNSExact <<
-        "," << results[iInst].d_lbExact << "," << results[iInst].d_ubMPExact << "," <<
-        results[iInst].d_lbALNS << "," << results[iInst].d_ubMPALNS <<  "," <<  
-        "," << results[iInst].d_tMPExact << "," << results[iInst].d_tMPALNS << "," << 
-        "," << results[iInst].d_nCustPerRoutePricing <<"\n";
+        file << results[iInst].d_instName << ","
+             << results[iInst].d_nPricingExact << "," 
+             << results[iInst].d_nPricingALNS << "," 
+             << results[iInst].d_nPricingALNSExact << "," 
+             << results[iInst].d_lbExact << "," 
+             << results[iInst].d_ubMPExact << "," 
+             << results[iInst].d_lbALNS << "," 
+             << results[iInst].d_ubMPALNS <<  "," 
+             << results[iInst].d_tMPExact << "," 
+             << results[iInst].d_tMPALNS << "\n";
         file.flush();
         if (!solver.verifyResult())
         {

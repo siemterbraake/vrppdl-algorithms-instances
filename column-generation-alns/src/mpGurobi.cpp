@@ -116,17 +116,17 @@ void MasterProblemGRB::labelExact(Result& result, std::atomic<bool>& stopFlag)
     {
         solveCurrentLP(true);
 
+        if (stopFlag.load())
+        {
+            break;
+        }
+
         unsigned short idDepot = subproblems[idSubproblem].first;
         unsigned short idVehType = subproblems[idSubproblem].second;
         Pricer pricer = Pricer(d_solRelaxed, d_settings, d_inst, d_graph);
 
         pricer.setSubProblem(idDepot, idVehType);
         pricer.solveExact(stopFlag, d_settings.d_nColsMaxExact);
-
-        if (stopFlag.load())
-        {
-            return;
-        }
 
         std::deque<Label> labels = pricer.getCompleteLabels();
 
@@ -216,6 +216,10 @@ void MasterProblemGRB::labelALNS(Result& result, std::atomic<bool>& stopFlag)
             bool foundNewColumns = false;
             for (unsigned short i = 0; i < d_inst.d_nDepots; i++)
             {
+                if (stopFlag.load())
+                {
+                    break;
+                }
                 if (foundNewColumns)
                 {
                     break;
@@ -227,7 +231,7 @@ void MasterProblemGRB::labelALNS(Result& result, std::atomic<bool>& stopFlag)
                     pricer.solveExact(stopFlag, d_settings.d_nColsMaxExact);
                     if (stopFlag.load())
                     {
-                        return;
+                        break;
                     }
                     if (addPricedVariables(pricer.getCompleteLabels()))
                     {
@@ -239,6 +243,10 @@ void MasterProblemGRB::labelALNS(Result& result, std::atomic<bool>& stopFlag)
                         ctrSubproblems++;
                     }
                 }
+            }
+            if (stopFlag.load())
+            {
+                break;
             }
             if (d_settings.d_verbose)
             {
