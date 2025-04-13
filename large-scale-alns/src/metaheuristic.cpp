@@ -74,16 +74,17 @@ void Metaheuristic::setStandardParams() {
     d_tempObjVals.reserve(d_settings.d_nIterations*d_settings.d_nThreadLoops);
     d_curObjVals.reserve(d_settings.d_nIterations*d_settings.d_nThreadLoops);
     d_bestObjVals.reserve(d_settings.d_nIterations*d_settings.d_nThreadLoops);
-    d_temps.reserve(d_settings.d_nIterations*d_settings.d_nThreadLoops);
+    d_pThresholds.reserve(d_settings.d_nIterations*d_settings.d_nThreadLoops);
     d_wDestroyOp.resize(d_settings.d_nDestroyOps);
     d_wRepairOp.resize(d_settings.d_nRepairOps);
-
-    // Set the weights of the destroy and repair operators
-    std::fill(d_wDestroyOp.begin(), d_wDestroyOp.end(), 1.0f/static_cast<float>(d_settings.d_nDestroyOps));
+    
+    // Set the weights of operator pairs
     std::fill(d_wRepairOp.begin(), d_wRepairOp.end(), 1.0f/static_cast<float>(d_settings.d_nRepairOps));
+    std::fill(d_wDestroyOp.begin(), d_wDestroyOp.end(), 1.0f/static_cast<float>(d_settings.d_nDestroyOps));
 
-    // Setup SA parameters
-    d_temp = d_settings.d_tempStartSA;
+    // Setup PTA parameters
+    d_pThreshold = d_settings.d_pThresholdMax;
+    d_pThresholdMax = d_settings.d_pThresholdMax;
 }
 
 void Metaheuristic::run() {
@@ -191,10 +192,11 @@ void Metaheuristic::findInitialSolution() {
 
 void Metaheuristic::setOperationIdx() {
     /*
-    Set the indices of the destroy and repair operators to be used in the next iteration.
+    Set the indices of the destroy and repair operators to be used in the next iteration by selecting
+    randomly with weight for each pair of operators based on their past performance.
     */
-    d_iDestroyOp = std::discrete_distribution<std::size_t>(d_wDestroyOp.begin(),d_wDestroyOp.end())(d_gen);
-    d_iRepairOp = std::discrete_distribution<std::size_t>(d_wRepairOp.begin(),d_wRepairOp.end())(d_gen);
+    d_iDestroyOp =  std::discrete_distribution<std::size_t>(d_wDestroyOp.begin(),d_wDestroyOp.end())(d_gen);
+    d_iDestroyOp =  std::discrete_distribution<std::size_t>(d_wRepairOp.begin(),d_wRepairOp.end())(d_gen);
 }
 
 void Metaheuristic::performDestroy() {
@@ -280,12 +282,19 @@ void Metaheuristic::evaluateSolution(std::size_t i) {
     // Check feasibility and validity of the solution every nCheckFeasible iterations
     bool verified= true;
     bool feasible = true;
+    d_pThreshold -= d_pThresholdMax / (float)d_settings.d_nUnimproveMax;
     if (i % d_settings.d_nCheckFeasible == 0) {
         verified = d_tempSol.isValid(true);
         feasible = d_tempSol.isFeasible();
     }
-    // Cases where the solution is not valid or feasible
     d_tempObjVals.push_back(d_tempSol.d_cost);
+    // Check if the solution is new
+    std::size_t hash = d_tempSol.hash();
+    bool newSolution = d_solCache.find(hash) == d_solCache.end();
+    if (newSolution) {
+        d_solCache.insert(hash);
+    }
+    // Check all solution scenarios
     if (!verified) {
         std::cout << "WARNING: Solution is in the wrong format. Reverting back to previous solution\n";
         d_curScore = 0;
@@ -303,28 +312,32 @@ void Metaheuristic::evaluateSolution(std::size_t i) {
         d_bestSol = d_tempSol;
         d_curSol = d_tempSol;
         d_bestObjVal = d_tempSol.d_cost;
-        d_curScore = 3;
-        d_nUnimproved = 0;
+        resetPTA(i);
     }
+    // Case where maximum number without improvements is reached
+    else if (d_nUnimproved >= d_settings.d_nUnimproveMax) {
+        d_curSol = d_bestSol;
+        d_tempSol = d_bestSol;
+        resetPTA(i);
+    } 
     // Case where the solution is a local improvement
     else if (d_tempSol.d_cost < d_curSol.d_cost) {
         d_curSol = d_tempSol;
-        d_curScore = 2;
         d_nUnimproved++;
-    }
-    // If simulated annealing is used, accept the solution with a certain probability
-    else if (d_settings.d_simulatedAnnealing)  {
-        float deltaCost = d_tempSol.d_cost - d_curSol.d_cost;
-        float p_accept = std::exp(-deltaCost/d_temp);
-        float rand = std::uniform_real_distribution<float>(0,1)(d_gen);
-        if (rand < p_accept) {
-            d_curScore = 1;
-            d_curSol = d_tempSol;
-        }
-        else {
+        if (newSolution) {
+            d_curScore = 2;
+        } else {
             d_curScore = 0;
-            d_tempSol = d_curSol;
         }
+    }
+    // Apply PTA
+    else if (d_tempSol.d_cost < d_bestObjVal * (1.0 + d_pThreshold))  {
+        if (newSolution) {
+            d_curScore = 1;
+        } else {
+            d_curScore = 0;
+        }
+        d_curSol = d_tempSol;
         d_nUnimproved++;
     }
     // Case where the solution is not an improvement
@@ -337,22 +350,31 @@ void Metaheuristic::evaluateSolution(std::size_t i) {
     d_curObjVals.push_back(d_curSol.d_cost);
     d_bestObjVals.push_back(d_bestSol.d_cost);
 
-    // Update temperature
-    if (d_settings.d_simulatedAnnealing) {
-        updateSATemp(i);
-    }
+    // Add PTA value to vector
+    d_pThresholds.push_back(d_pThreshold);
+}
+
+void Metaheuristic::resetPTA(std::size_t i) {
+    /*
+    Reset the PTA parameters. To be used after finding new solutions or after
+    looking for the max number of iters
+    */
+    d_nUnimproved = 0;
+    std::size_t iCur = d_parallelIter*d_settings.d_nIterations + i;
+    std::size_t iTot = d_settings.d_nThreadLoops*d_settings.d_nIterations;
+    d_pThresholdMax = d_settings.d_pThresholdMax * ((float)(iTot - iCur) / (float)iTot);
+    d_pThreshold = d_pThresholdMax;
 }
 
 void Metaheuristic::updateOpWeights() {
     /*
-    Update the weights of the destroy and repair operators based on curScore.
+    Update the weights of the destroy and repair operator pairs based on curScore.
     The weights remain normalized.
     */
     // Update weights
     if (d_curScore == 0) {
         d_wDestroyOp[d_iDestroyOp] /= (1 + d_settings.d_alnsAlpha);
         d_wRepairOp[d_iRepairOp] /= (1 + d_settings.d_alnsAlpha);
-
     }
     else {
         d_wDestroyOp[d_iDestroyOp] *= (1 + d_settings.d_alnsAlpha * static_cast<float>(d_curScore));
@@ -364,19 +386,10 @@ void Metaheuristic::updateOpWeights() {
     for (std::size_t i = 0; i < d_settings.d_nDestroyOps; i++) {
         d_wDestroyOp[i] /= sumDestroy;
     }
-    for (std::size_t i = 0; i < d_settings.d_nRepairOps; i++) {
+     for (std::size_t i = 0; i < d_settings.d_nRepairOps; i++) {
         d_wRepairOp[i] /= sumRepair;
     }
     return;
-}
-
-void Metaheuristic::updateSATemp(std::size_t i) {
-    /*
-    Update the temperature of the simulated annealing algorithm.
-    */
-    std::size_t iParallelIter = i + d_parallelIter * d_settings.d_nIterations;
-    d_temp = d_settings.d_tempEndSA + (d_settings.d_tempStartSA - d_settings.d_tempEndSA) * exp(-10*static_cast<float>(iParallelIter) / static_cast<float>(d_settings.d_nIterations*d_settings.d_nThreadLoops));
-    d_temps.push_back(d_temp);
 }
 
 void Metaheuristic::updateProgressBar(std::size_t i) {
@@ -453,7 +466,7 @@ void Metaheuristic::writeLogs(float timeElapsed, bool error, bool python) const 
     // Write the summary to a file
     writeSummary(timeElapsed, folder+"/summary.txt");
     // Write the temperatures to a file
-    writeTemps(folder+"/temps"+d_settings.d_instName+".csv");
+    writeThresholds(folder+"/thresholds"+d_settings.d_instName+".csv");
     // Write the solution to a csv file
     d_bestSol.writeCsv(folder+"/sol"+d_settings.d_instName+".csv");
     if (error) {
@@ -498,6 +511,7 @@ void Metaheuristic::writeSummary(float timeElapsed, std::string path) const {
     file << "Number of routes used: " << nRoutes << "\n";
     file << "Total driven distance: " << totalDist << "\n";
     file << "Average utilization of scheduled lines: " << uSL << "\n";
+    file << "Operator Combination Weights: \n";
     file << "Destroy weights: \n";
     for (std::size_t i = 0; i < d_wDestroyOp.size(); i++) {
         file << d_wDestroyOp[i] << ", ";
@@ -506,7 +520,7 @@ void Metaheuristic::writeSummary(float timeElapsed, std::string path) const {
     file << "Repair weights: \n";
     for (std::size_t i = 0; i < d_wRepairOp.size(); i++) {
         file << d_wRepairOp[i] << ", ";
-    }
+    }   
     file << "\n";
     file << "Scheduled line usage: \n";
     d_bestSol.writeSLUsage(file);
@@ -533,15 +547,15 @@ void Metaheuristic::writeSolutionTrend(std::string path) const{
     file.close();
 }
 
-void Metaheuristic::writeTemps(std::string path) const {
+void Metaheuristic::writeThresholds(std::string path) const {
     /*
     Write the temperatures of the simulated annealing algorithm to a csv file.
     */
     std::ofstream file;
     file.open(path);
-    file << "iteration,temp\n";
-    for (std::size_t i = 0; i < d_temps.size(); i++) {
-        file << i << "," << d_temps[i] << "\n";
+    file << "iteration,threshold\n";
+    for (std::size_t i = 0; i < d_pThresholds.size(); i++) {
+        file << i << "," << d_pThresholds[i] << "\n";
     }
     file.close();
 }

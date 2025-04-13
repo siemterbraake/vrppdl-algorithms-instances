@@ -33,18 +33,21 @@ struct Metaheuristic {
     Solution d_curSol;   // Current solution stored when the temporary solution is accepted
     Solution d_bestSol;  // Best solution found so far
 
+    std::set<std::size_t> d_solCache; // Hashes of the solutions found
+
     std::vector<float> d_tempObjVals; // Objective values of temporary solution per iteration
     std::vector<float> d_curObjVals;  // Objective values of current solution per iteration
     std::vector<float> d_bestObjVals; // Objective values of best solution per iteration
-    std::vector<float> d_wDestroyOp;  // Weights of destroy operations
-    std::vector<float> d_wRepairOp;   // Weights of repair operations
-    std::vector<float> d_temps;       // Temperatures for simulated annealing
+    std::vector<float> d_wDestroyOp;  // Weights of the operators
+    std::vector<float> d_wRepairOp;   // Weights of the operators
+    std::vector<float> d_pThresholds; // Thresholds for PTA
     std::mt19937 d_gen;               // Random number generator
 
     std::string d_idRun;            // ID of the current run
     std::string d_pathOutput;       // Path to the output folder
     float d_bestObjVal;             // Best objective value
-    float d_temp;                   // Temperature for simulated annealing
+    float d_pThreshold;             // Threshold percentage for PTA acceptance
+    float d_pThresholdMax;          // Max threshold percentage for PTA at current stage of algo
     std::size_t d_sizeNeighborhood; // Size of the neighborhood of the current iteration
     std::size_t d_iRepairOp;        // Index of current repair operation
     std::size_t d_iDestroyOp;       // Index of current destroy operation
@@ -65,9 +68,9 @@ struct Metaheuristic {
     void setOperationIdx();
     void performDestroy();
     void performRepair();
-    void evaluateSolution(std::size_t i);   
+    void evaluateSolution(std::size_t i);
+    void resetPTA(std::size_t i); // Resets the parameters for PTA   
     void updateOpWeights();
-    void updateSATemp(std::size_t i);
     const std::vector<std::vector<std::size_t>>& getSubproblems() const;
     std::size_t getSubproblemCount() const;
     std::vector<std::vector<float>> getSubproblemEmbeddings(std::size_t idSubproblem) const;
@@ -76,7 +79,7 @@ struct Metaheuristic {
     void writeLogs(float timeElapsed, bool error = false, bool python = false) const;
     void writeSummary(float timeElapsed, std::string path) const;
     void writeSolutionTrend(std::string path) const;
-    void writeTemps(std::string path) const;
+    void writeThresholds(std::string path) const;
     Solution getBestSolution() const;
     void setBestSolution(Solution sol);
 

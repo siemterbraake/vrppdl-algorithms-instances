@@ -103,6 +103,7 @@ struct Solution {
     void writeSLUsage(std::ofstream &file) const;
     void writeCsv(std::string path) const;
     void writeJSON(std::string path) const;
+    std::size_t hash() const;
 
     // Checker functions -> SolutionChecker.cpp
     bool isValid(bool destroyed) const;

@@ -1,6 +1,5 @@
 #include "parallelExecutor.h"
 
-// TODO: Add loading of instance files from the data folder
 ParallelExecutor::ParallelExecutor(std::string idRun){
     // Load the settings, instance and graph
     if (d_settings.load("settings.txt"))

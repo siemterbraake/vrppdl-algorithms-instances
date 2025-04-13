@@ -814,3 +814,22 @@ void VehicleTypeSolution::closeRoute(std::size_t idRoute, float excessiveRoutePe
         }
     }
 }
+
+std::size_t Solution::hash() const {
+    /*
+    Creates a hash for the solution based on the hash of each route
+    */
+    std::size_t hashValue = 0;
+    std::hash<unsigned short> hasher;
+    for (const DepotSolution& depotSol : d_depotSols) {
+        for (const VehicleTypeSolution& vehTypeSol : depotSol.d_vehTypeSols) {
+            for (const Route& route : vehTypeSol.d_routes) {
+                for (const Visit& visit : route.d_visits) {
+                    hashValue ^= hasher(visit.d_idNode) + 0x9e3779b9 + (hashValue << 6) + (hashValue >> 2);
+                }
+            }
+        }
+    }
+    return hashValue;
+
+}

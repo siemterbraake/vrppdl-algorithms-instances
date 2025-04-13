@@ -22,8 +22,7 @@ struct Settings {
     std::string d_distMetric;        // Distance metric to use, either euclidean or haversine
     float d_noiseLevel;              // Noise level for the noisy heuristics
     float d_alnsAlpha;               // Alpha parameter for the ALNS
-    float d_tempStartSA;             // Initial temperature for simulated annealing
-    float d_tempEndSA;               // End temperature for simulated annealing
+    float d_pThresholdMax;          // Maximum theshold percentage for PTA
     float d_excessiveRoutePenalty;   // Penalty for excessive route time
 
     std::size_t d_randomSeed;             // Random seed
@@ -38,12 +37,12 @@ struct Settings {
     std::size_t d_nCheckFeasible;         // Number of iterations before checking feasibility
     std::size_t d_nThreadLoops;           // Number of loops for the parallel executor
     std::size_t d_sortType;               // Type of node sorting before construction heuristic
+    std::size_t d_nUnimproveMax;          // Max number of iterations where no improved solution is found
     
     bool d_verbose;             // Whether to print verbose output
     bool d_local;               // Whether to run the local search
     bool d_restricedServiceArea;// Whether to route based on the territories defined by tall
     bool d_writeFiles;          // Whether to write the solution and logs to file
-    bool d_simulatedAnnealing;  // Whether to use simulated annealing
     
     // Default parameters
     Settings();

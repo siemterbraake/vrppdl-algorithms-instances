@@ -22,12 +22,11 @@ Settings::Settings() {
     d_local = false;
     d_restricedServiceArea = false;
     d_writeFiles = false;
-    d_simulatedAnnealing = false;
     d_noiseLevel = 0.0;
     d_alnsAlpha = 0.1f;
-    d_tempStartSA = 100;
-    d_tempEndSA = 1;
     d_excessiveRoutePenalty = 1000;
+    d_nUnimproveMax = 1000;
+    d_pThresholdMax = 0.0f;
 }
 
 void parseKeyValue(const std::string& line, std::unordered_map<std::string, std::string>& keyValueMap) {
@@ -85,9 +84,8 @@ bool Settings::load(const std::string path_settings) {
         setValue("sortType", d_sortType)  &&
         setValue("noiseLevel", d_noiseLevel) &&
         setValue("alnsAlpha", d_alnsAlpha) &&
-        setValue("simulatedAnnealing", d_simulatedAnnealing) &&
-        setValue("tempStartSA", d_tempStartSA) &&
-        setValue("tempEndSA", d_tempEndSA) && 
+        setValue("nUnimproveMax", d_nUnimproveMax) &&
+        setValue("pThresholdMax", d_pThresholdMax) && 
         setValue("excessiveRoutePenalty", d_excessiveRoutePenalty)) {
             return true;
         }
