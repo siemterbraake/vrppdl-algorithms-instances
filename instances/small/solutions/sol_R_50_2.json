@@ -1,0 +1,112 @@
+{
+  "Instance": "R_50_2",
+  "Algorithm": "Exact",
+  "Relaxed Master Problem Solution": {
+    "Objective": 2074.73,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [3, 46, 54, 3],
+        "scheduled lines": [114, 67]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 52, 13, 19, 39, 35, 1],
+        "scheduled lines": [26, -1, 23, -1, -1]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [2, 6, 2],
+        "scheduled lines": [50]
+      },
+      {
+        "weight": 1,
+        "nodes": [4, 28, 4],
+        "scheduled lines": [74]
+      },
+      {
+        "weight": 1,
+        "nodes": [0, 29, 24, 45, 12, 44, 16, 51, 40, 10, 14, 11, 47, 36, 0],
+        "scheduled lines": [15, 81, 61, -1, 41, -1, -1, -1, -1, -1, 40, -1, -1]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [2, 23, 30, 37, 26, 32, 49, 55, 31, 2],
+        "scheduled lines": [-1, -1, 43, -1, -1, -1, 109, 47]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [4, 53, 20, 50, 33, 37, 48, 9, 4],
+        "scheduled lines": [-1, 86, 83, -1, 83, 33, -1]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [5, 38, 17, 18, 41, 48, 43, 15, 27, 8, 21, 5],
+        "scheduled lines": [-1, -1, -1, -1, 37, -1, -1, 17, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [3, 7, 25, 42, 22, 3],
+        "scheduled lines": [-1, -1, -1, 93]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [4, 34, 9, 33, 50, 31, 55, 53, 4],
+        "scheduled lines": [-1, -1, -1, 83, 87, 117, -1]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [2, 6, 23, 20, 30, 26, 32, 49, 2],
+        "scheduled lines": [50, -1, 46, -1, -1, -1, -1]
+      },
+      {
+        "weight": 0.5,
+        "nodes": [5, 38, 17, 18, 41, 34, 43, 15, 27, 8, 21, 5],
+        "scheduled lines": [-1, -1, -1, -1, 119, -1, -1, 17, -1, -1]
+      }    ]
+  },
+  "Integer Master Problem Solution": {
+    "Objective": 2084.64,
+    "Variables": [
+      {
+        "weight": 1,
+        "nodes": [2, 23, 30, 37, 26, 32, 49, 20, 6, 2],
+        "scheduled lines": [-1, -1, 43, -1, -1, -1, 46, 50]
+      },
+      {
+        "weight": 1,
+        "nodes": [3, 46, 54, 3],
+        "scheduled lines": [114, 67]
+      },
+      {
+        "weight": 1,
+        "nodes": [1, 52, 13, 19, 39, 35, 1],
+        "scheduled lines": [26, -1, 23, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [4, 28, 4],
+        "scheduled lines": [74]
+      },
+      {
+        "weight": 1,
+        "nodes": [0, 29, 24, 45, 12, 44, 16, 51, 40, 10, 14, 11, 47, 36, 0],
+        "scheduled lines": [15, 81, 61, -1, 41, -1, -1, -1, -1, -1, 40, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [5, 38, 17, 18, 41, 48, 43, 15, 27, 8, 21, 5],
+        "scheduled lines": [-1, -1, -1, -1, 37, -1, -1, 17, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [3, 22, 42, 25, 7, 3],
+        "scheduled lines": [93, -1, -1, -1]
+      },
+      {
+        "weight": 1,
+        "nodes": [4, 34, 9, 33, 50, 31, 55, 53, 4],
+        "scheduled lines": [-1, -1, -1, 83, 87, 117, -1]
+      }    ]
+  }
+}

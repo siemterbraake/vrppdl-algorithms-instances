@@ -28,6 +28,7 @@ struct Graph {
     std::vector<int>  d_timeMatrix;                        // Time matrix for each vehicle type (nVehicle, nNode, nNode in a single column)
     std::vector<std::size_t> d_nearestNodes;               // List of nearest nodes for each node (nNode, nNearNeighbors in a single column)
     float d_maxDist;                                       // Largest distance value
+    int d_maxTime;                                         // Largest time value
     std::size_t d_nNodes;                                  // Number of nodes
     std::size_t d_nNearestNodes;                           // Number of near neigbors for each node
     std::size_t d_nVehicleTypes;                           // Number of vehicle types

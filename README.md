@@ -2,7 +2,9 @@
 
 *Casper Bazelmans, Siem ter Braake, Albert Schrotenboer, Rolf van Lieshout, Tom van Woensel*
 
-This repository contains the complimentary instances and algorithms for the *Vehicle Routing Problem with Pickups, Deliveries, and Linehauls* paper. 
+This repository contains the complimentary instances and algorithms for the *Vehicle Routing Problem with Pickups, Deliveries, and  Scheduled Linehauls* paper. 
+
+Please cite using *Casper H. Bazelmans, Siem L. ter Braake, Albert H. Schrotenboer, Rolf N. van Lieshout, Tom Van Woensel, The Vehicle Routing Problem with Pickups, Deliveries, and Scheduled Linehauls, European Journal of Operational Research, 2025*
 
 ## Instances
 The instances are split by size. The small folder includes the synthetic instances used to test the column generation algorithms. The medium and large folders include the real-world instances. All solutions are stored in `.json` format. The small solutions include a relaxed solution as well as an integer solution. These are either exact or heuristic. The medium and large solutions include only heuristic integer solutions obtained using the ALNS.

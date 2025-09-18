@@ -1,6 +1,5 @@
 {
-
-"Instance": "BE_WE_1_R",
+  "Instance": "BE_WE_1_R",
   "Algorithm": "Heuristic",
   "Integer Master Problem Solution": {
     "Objective": 3484.04,
@@ -12,11 +11,6 @@
       },
       {
         "weight":1,
-        "nodes": [0, 122, 67, 53, 127, 98, 25, 0],
-        "scheduled lines": [-1, -1, -1, -1, -1, 4]
-      },
-      {
-        "weight":1,
         "nodes": [0, 37, 32, 137, 114, 131, 26, 14, 49, 128, 76, 95, 22, 10, 112, 0],
         "scheduled lines": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
       },
@@ -24,6 +18,11 @@
         "weight":1,
         "nodes": [0, 19, 3, 44, 6, 124, 59, 125, 134, 7, 51, 16, 104, 48, 0],
         "scheduled lines": [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
+      },
+      {
+        "weight":1,
+        "nodes": [0, 122, 67, 53, 127, 98, 25, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, 4]
       },
       {
         "weight":1,

@@ -1,19 +1,18 @@
 {
-
-"Instance": "P_35_0",
+  "Instance": "P_35_0",
   "Algorithm": "Exact",
   "Relaxed Master Problem Solution": {
     "Objective": 1134.32,
     "Variables": [
       {
         "weight": 1,
-        "nodes": [0, 14, 35, 11, 7, 0],
-        "scheduled lines": [-1, -1, -1, -1]
+        "nodes": [0, 17, 26, 13, 25, 24, 8, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1]
       },
       {
         "weight": 1,
-        "nodes": [0, 17, 26, 13, 25, 24, 8, 0],
-        "scheduled lines": [-1, -1, -1, -1, -1, -1]
+        "nodes": [0, 14, 35, 11, 7, 0],
+        "scheduled lines": [-1, -1, -1, -1]
       },
       {
         "weight": 1,
@@ -22,8 +21,8 @@
       },
       {
         "weight": 1,
-        "nodes": [1, 2, 31, 27, 20, 19, 32, 33, 4, 10, 30, 16, 36, 18, 1],
-        "scheduled lines": [-1, 0, -1, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1]
+        "nodes": [1, 9, 22, 15, 1],
+        "scheduled lines": [0, 2, -1]
       },
       {
         "weight": 1,
@@ -32,8 +31,8 @@
       },
       {
         "weight": 1,
-        "nodes": [1, 9, 22, 15, 1],
-        "scheduled lines": [0, 2, -1]
+        "nodes": [1, 2, 31, 27, 20, 19, 32, 33, 4, 10, 30, 16, 36, 18, 1],
+        "scheduled lines": [-1, 0, -1, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1]
       }    ]
   },
   "Integer Master Problem Solution": {
@@ -41,13 +40,13 @@
     "Variables": [
       {
         "weight": 1,
-        "nodes": [0, 14, 35, 11, 7, 0],
-        "scheduled lines": [-1, -1, -1, -1]
+        "nodes": [0, 17, 26, 13, 25, 24, 8, 0],
+        "scheduled lines": [-1, -1, -1, -1, -1, -1]
       },
       {
         "weight": 1,
-        "nodes": [0, 17, 26, 13, 25, 24, 8, 0],
-        "scheduled lines": [-1, -1, -1, -1, -1, -1]
+        "nodes": [0, 14, 35, 11, 7, 0],
+        "scheduled lines": [-1, -1, -1, -1]
       },
       {
         "weight": 1,
@@ -56,8 +55,8 @@
       },
       {
         "weight": 1,
-        "nodes": [1, 2, 31, 27, 20, 19, 32, 33, 4, 10, 30, 16, 36, 18, 1],
-        "scheduled lines": [-1, 0, -1, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1]
+        "nodes": [1, 9, 22, 15, 1],
+        "scheduled lines": [0, 2, -1]
       },
       {
         "weight": 1,
@@ -66,8 +65,8 @@
       },
       {
         "weight": 1,
-        "nodes": [1, 9, 22, 15, 1],
-        "scheduled lines": [0, 2, -1]
+        "nodes": [1, 2, 31, 27, 20, 19, 32, 33, 4, 10, 30, 16, 36, 18, 1],
+        "scheduled lines": [-1, 0, -1, -1, -1, 1, -1, -1, -1, -1, -1, -1, -1]
       }    ]
   }
 }

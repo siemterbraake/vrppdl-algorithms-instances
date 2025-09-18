@@ -12,6 +12,7 @@ void Graph::load(const Instance &inst, Settings &settings) {
     d_nVehicleTypes = inst.d_nVehTypes;
     d_nNearestNodes = settings.d_nNeighborConsider;
     d_maxDist = 0;
+    d_maxTime = 0;
     // Setup values
     calcDima(inst, settings);
     calcNearestNodes(inst, settings);
@@ -30,6 +31,9 @@ void Graph::calcDima(const Instance &inst, const Settings &settings) {
     }
     // Calculate distance between nodes
     for (std::size_t i = 0; i < inst.d_nNodes; i++) {
+        if (inst.d_nodes[i].d_twDepotEnd > d_maxTime) {
+            d_maxTime = inst.d_nodes[i].d_twDepotEnd;
+        }
         for (std::size_t j = i+1; j < inst.d_nNodes; j++) {
             // Get distance
             double lat1 = inst.d_nodes[i].d_latitude;
@@ -75,7 +79,7 @@ void Graph::calcNearestNodes(const Instance &inst, Settings &settings) {
 
     // Calculate nearest nodes
     float w1 = 1/d_maxDist; // Normalize distance by the maximum distance
-    float w2 = 1.0f / (10*60*60); // Normalize time by the maximum time (8AM to 6PM)
+    float w2 = 1.0f / d_maxTime; // Normalize time by the maximum time (8AM to 6PM)
     for (std::size_t i = inst.d_nDepots; i < inst.d_nNodes; i++) {
         std::vector<std::size_t> idx(inst.d_nCustNodes);
         std::iota(idx.begin(), idx.end(), inst.d_nDepots);

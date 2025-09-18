@@ -1,6 +1,5 @@
 {
-
-"Instance": "BE_FR_4_R",
+  "Instance": "BE_FR_4_R",
   "Algorithm": "Heuristic",
   "Integer Master Problem Solution": {
     "Objective": 2423.57,

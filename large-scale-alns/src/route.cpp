@@ -200,7 +200,7 @@ std::pair<std::size_t,float> Route::checkGreedyInsert(const Node &req, int twDep
                     impactTimeTravel = impact;
                 }
                 // If you need to wait at the next node, update the impact
-                impact -= d_visits[static_cast<unsigned int>(j+1)].d_twWait;
+                impact -= d_visits[j+1].d_twWait;
             }
             // If this request pushes the route over the return time for scheduled lines, skip this position
             if (impact > 0) {
