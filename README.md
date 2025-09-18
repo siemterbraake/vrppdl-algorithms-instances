@@ -2,7 +2,7 @@
 
 *Casper Bazelmans, Siem ter Braake, Albert Schrotenboer, Rolf van Lieshout, Tom van Woensel*
 
-This repository contains the complimentary instances and algorithms for the *Vehicle Routing Problem with Pickups, Deliveries, and  Scheduled Linehauls* paper. 
+This repository contains the complimentary instances and algorithms for the [*Vehicle Routing Problem with Pickups, Deliveries, and  Scheduled Linehauls*](https://www.sciencedirect.com/science/article/pii/S0377221725005958) paper. 
 
 Please cite using *Casper H. Bazelmans, Siem L. ter Braake, Albert H. Schrotenboer, Rolf N. van Lieshout, Tom Van Woensel, The Vehicle Routing Problem with Pickups, Deliveries, and Scheduled Linehauls, European Journal of Operational Research, 2025*
 
